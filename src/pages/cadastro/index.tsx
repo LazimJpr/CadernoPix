@@ -3,9 +3,13 @@ import { useState } from 'react';
 import styles from './styles';
 import { Button } from '../../components/Button';
 
-export default function Login() {
+export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
+  const [cpf, setCpf] = useState('');
+
 
   return (
     <View style={styles.container}>
