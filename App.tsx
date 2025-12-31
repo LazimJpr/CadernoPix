@@ -6,18 +6,24 @@
  */
 
 import {
-  SafeAreaProvider  } from 'react-native-safe-area-context';
+  SafeAreaProvider
+} from 'react-native-safe-area-context';
 import Login from "./src/pages/login";
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import Cadastro from './src/pages/cadastro';
 
 function App() {
 
   return (
     <SafeAreaProvider>
-      <Login />
-      <View style={styles.version}>
-        <Text style={styles.versionText}>versão 0.0.0</Text>
-      </View>
+      <ScrollView>
+
+
+        <Cadastro />
+        <View style={styles.version}>
+          <Text style={styles.versionText}>versão 0.0.0</Text>
+        </View>
+      </ScrollView>
     </SafeAreaProvider>
   );
 }
@@ -28,7 +34,7 @@ const styles = StyleSheet.create({
   version: {
     alignSelf: 'center',
     justifyContent: 'center',
-    marginVertical: 40,
+    paddingVertical: 20,
   },
   versionText: {
     color: '#58c3a5',

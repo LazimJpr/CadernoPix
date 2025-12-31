@@ -10,10 +10,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 40,
   },
-  welcomeText: {
+  cadastroTitle: {
     fontWeight: 'bold',
     color: 'white',
     fontSize: 25,
+    textAlign: 'center',
+    width: '80%',
+  },
+  cadastroSubTitle: {
+    color: 'white',
+    fontSize: 15,
+    width: '90%',
+    textAlign: 'center',
   },
   loginArea: {
     alignItems: 'center',
@@ -31,9 +39,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     resizeMode: 'contain',
-    width: 150,
-    height: 150,
-    marginBottom: 50,
+    width: 120,
+    height: 120,
+    marginVertical: 30,
   },
   text: {
     color: 'white',
