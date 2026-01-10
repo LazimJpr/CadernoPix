@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios, { Method } from "axios";
 
 const isProduction: boolean = false;
 const isHml: boolean = false;
 const isLocal = isProduction ? false : isHml ? false : true;
+
 
 
 function getUrl () : string {
@@ -14,3 +15,12 @@ function getUrl () : string {
     return url;
 }
 
+export
+
+export enum api {
+    GET,
+    POST,
+    PUT,
+    DELETE,
+    PATCH
+}

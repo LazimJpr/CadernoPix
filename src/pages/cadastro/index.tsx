@@ -2,15 +2,18 @@ import { View, Text, TextInput, Image, TouchableOpacity, Alert } from 'react-nat
 import { useState } from 'react';
 import styles from './styles';
 import { Button } from '../../components/Button';
+import { Usuario } from '../../models/UsuarioModel';
 
 export default function Cadastro() {
   const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
+  const [usuario, setUsuario] = useState<Usuario>({});
 
-  const validarPassword = (senha: string) => {
+  const validarPassword = (senha: string) : boolean => {
     setConfirmPassword(senha);
     if (password !== confirmPassword) {
       Alert.alert("As senhas não coincidem!");
@@ -52,6 +55,12 @@ export default function Cadastro() {
             value={email}
             onChangeText={setEmail}
           />
+          <TextInput
+            style={styles.input}
+            placeholder="Telefone"
+            value={telefone}
+            onChangeText={setTelefone}
+          />
           <Button title={'Prosseguir'} activeOpacity={0.5} onPress={validateAndProceed}/>
 
         </View>
@@ -72,14 +81,14 @@ export default function Cadastro() {
             style={styles.input}
             placeholder="Senha"
             value={password}
-            onChangeText={(txt) => validarPassword(txt)}
+            onChangeText={setPassword}
 
           />
           <TextInput
             style={styles.input}
             placeholder="Confirmar Senha"
             value={confirmPassword}
-            onChangeText={setConfirmPassword}
+            onChangeText={(txt) => validarPassword(txt)}
 
           />
           <Button title={'Concluir Cadastro'} activeOpacity={0.5} />
@@ -89,10 +98,10 @@ export default function Cadastro() {
     );
   }
 
-  const RenderPersonalData = () => {
+  const RenderPage = () => {
     return (
       <View>
-
+        
       </View>
     );
   }
