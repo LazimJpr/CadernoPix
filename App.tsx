@@ -4,27 +4,57 @@
  *
  * @format
  */
+import * as React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import {
-  SafeAreaProvider
-} from 'react-native-safe-area-context';
+// 1. Importações do React Navigation
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Suas páginas
 import Login from "./src/pages/login";
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Cadastro from './src/pages/cadastro';
 
+// 2. Criando o Stack Navigator
+const Stack = createNativeStackNavigator();
+
 function App() {
-
   return (
-    <SafeAreaProvider>
-      <ScrollView>
+    <View style={{ backgroundColor: '#1c1c1c'}}>
 
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
 
-        <Cadastro />
-        <View style={styles.version}>
-          <Text style={styles.versionText}>versão 0.0.0</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaProvider>
+          <NavigationContainer>
+
+            <Stack.Navigator initialRouteName="Login">
+
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+              />
+
+              <Stack.Screen
+                name="Cadastro"
+                component={Cadastro}
+                options={{ title: 'Criar nova conta' }}
+              />
+
+            </Stack.Navigator>
+
+          </NavigationContainer>
+
+          <View style={styles.version} pointerEvents="none">
+            <Text style={styles.versionText}>versão 0.0.0</Text>
+          </View>
+
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </View>
+
   );
 }
 
@@ -34,9 +64,13 @@ const styles = StyleSheet.create({
   version: {
     alignSelf: 'center',
     justifyContent: 'center',
-    paddingVertical: 20,
+    position: 'absolute',
+    bottom: 20,
+    paddingHorizontal: 8,
+    borderRadius: 4,
   },
   versionText: {
     color: '#58c3a5',
+    fontWeight: 'bold',
   },
 });

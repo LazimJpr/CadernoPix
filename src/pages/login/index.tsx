@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styles from './styles';
 import { Button } from '../../components/Button';
 
-export default function Login() {
+export default function Login(navigation: any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

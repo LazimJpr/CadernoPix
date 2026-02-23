@@ -1,38 +1,44 @@
-import { View, Text, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
-import { useState } from 'react';
+import { View, Text, TextInput, Image, TouchableOpacity, Alert, Pressable } from 'react-native';
+import { useEffect, useState } from 'react';
 import styles from './styles';
 import { Button } from '../../components/Button';
-import { Usuario } from '../../models/UsuarioModel';
+import { Icon } from 'react-native-elements';
+import React from 'react';
 
-export default function Cadastro() {
+
+export default function Cadastro(navigation: any) {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
-  const [usuario, setUsuario] = useState<Usuario>({});
+  const [etapa, setEtapa] = useState(2);
+  const [campoObrigatorio, setCampoObrigatorio] = useState('');
+  const [showPassword, setShowPassword] = useState(true);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(true);
 
-  const validarPassword = (senha: string) : boolean => {
+  useEffect(() => {
+  }, [etapa, email, telefone, name, cpf]);
+
+  const validarPassword = (senha: string): boolean => {
     setConfirmPassword(senha);
     if (password !== confirmPassword) {
-      Alert.alert("As senhas não coincidem!");
+      setCampoObrigatorio('confirmPassword');
       return false;
+    } else {
+      setCampoObrigatorio('');
     }
     return true;
   }
 
-  function validateAndProceed () {
-    
+  function validateAndProceed() {
+
   }
 
-  const RenderFirstPage = () => {
+  const renderFirstPage = () => {
     return (
-      <View style={styles.welcome}>
-        <Image
-          source={require('../../assets/images/logo_white.png')}
-          style={styles.logo}
-        />
+      <View style={styles.formContainer}>
         <Text style={styles.cadastroTitle}>Faça seu cadastro para acessar app!</Text>
         <Text style={styles.cadastroSubTitle}>Preencha os campos abaixo com seus dados:</Text>
         <View style={styles.loginArea}>
@@ -61,58 +67,97 @@ export default function Cadastro() {
             value={telefone}
             onChangeText={setTelefone}
           />
-          <Button title={'Prosseguir'} activeOpacity={0.5} onPress={validateAndProceed}/>
 
         </View>
+        <Button title={'Prosseguir'} onPress={validateAndProceed} style={{ marginTop: 30 }} />
+
       </View>
     );
   }
 
-  const RenderSecondPage = () => {
+  const renderSecondPage = () => {
     return (
-      <View style={styles.welcome}>
-        <Image
-          source={require('../../assets/images/logo_white.png')}
-          style={styles.logo}
-        />
+      <View style={styles.loginArea}>
         <Text style={styles.cadastroTitle}>Agora, para finalizarmos, crie sua senha!</Text>
-        <View style={styles.loginArea}>
-          <TextInput
-            style={styles.input}
-            placeholder="Senha"
-            value={password}
-            onChangeText={setPassword}
+        <View style={styles.formContainer}>
 
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Confirmar Senha"
-            value={confirmPassword}
-            onChangeText={(txt) => validarPassword(txt)}
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.inputFull}
+              placeholder="Senha"
+              secureTextEntry={showPassword}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <Pressable
+              style={styles.iconContainer}
+              onPress={() => setShowPassword(!showPassword)}
+            >
+              <Icon
+                name={showPassword ? 'eye-off' : 'eye'}
+                type='feather'
+                color='#58c3a5'
+                size={20}
+              />
+            </Pressable>
+            {campoObrigatorio === 'password' && (
+              <Text style={styles.errorText}>É obrigatório preencher a senha!</Text>
+            )}
+          </View>
 
-          />
-          <Button title={'Concluir Cadastro'} activeOpacity={0.5} />
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.inputFull}
+              placeholder="Confirmar Senha"
+              secureTextEntry={showConfirmPassword}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+            <Pressable
+              style={styles.iconContainer}
+              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              <Icon
+                name={showConfirmPassword ? 'eye-off' : 'eye'}
+                type='feather'
+                color='#58c3a5'
+                size={20}
+              />
+            </Pressable>
+            {campoObrigatorio === 'confirmPassword' && (
+              <Text style={styles.errorText}>As senhas não coincidem!</Text>
+            )}
+          </View>
 
         </View>
+        <Button title={'Finalizar Cadastro'} onPress={() => {
+          if (validarPassword(confirmPassword)) {
+            setEtapa(3);
+          }
+        }} />
       </View>
     );
   }
 
-  const RenderPage = () => {
+  const renderPage = () => {
     return (
-      <View>
-        
-      </View>
+      <>
+        {etapa === 1 ? renderFirstPage() : renderSecondPage()}
+      </>
     );
   }
 
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require('../../assets/images/logo_white.png')}
+        style={styles.logo}
+      />
 
-        
-      </View>
-      <View style={styles.cadastreSe}>
+      {renderPage()}
+
+      <View style={styles.footer}>
         <Text style={styles.text}>Já tem uma conta?</Text>
         <TouchableOpacity activeOpacity={0.5}>
           <Text style={styles.cadastreSeText}>Clique aqui e faça o Login!</Text>
